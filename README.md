@@ -65,6 +65,8 @@ Topology optimization software with the discrete adjoint method from DAFoam.
  cd mount
  ```
 
+ Now, to run the optimization:
+
  - Run the preProcessing.sh script to generate the mesh:
  ```console
  ./preProcessing.sh
