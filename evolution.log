@@ -1,0 +1,3 @@
+# 2022-05-04
+- managed to configure docker image to use datofoam:base and install setup.py
+- modifications to dafoam can be quickly compiled this way
