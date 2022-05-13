@@ -2386,7 +2386,7 @@ class PYDAFOAM(object):
 
         return
 
-    def calcPsi(self):
+    def calcPsiVec(self):
         """
         Run adjoint solver to compute the adjoint vector psiVec
 

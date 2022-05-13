@@ -1,9 +1,10 @@
-# DATOFoam - Discrete Adjiont Topology Optimization
+# DATOFoam - Discrete Adjoint Topology Optimization
 
 Topology optimization software with the discrete adjoint method from DAFoam.
 
-## Instalation
- - Clone DATOFOam_base:
+## Pre-requisite
+Need to build datofoam_base docker image before.
+- Clone DATOFOam_base:
  ```console
  git clone https://github.com/ckiyono/datofoam_base.git
  ```
@@ -23,6 +24,7 @@ Topology optimization software with the discrete adjoint method from DAFoam.
  cd ..
  ```
 
+## Instalation
  - Clone this repository:
  ```console
  git clone https://github.com/ckiyono/datofoam.git
@@ -37,6 +39,9 @@ Topology optimization software with the discrete adjoint method from DAFoam.
  ```console
  sudo docker build -t datofoam .
  ```
+
+## Modifications to the code
+If any modification is made to the DATOFoam code, just build the image again.
 
 ## Running DATOFoam
  - cd into an example folder:
@@ -81,4 +86,4 @@ Topology optimization software with the discrete adjoint method from DAFoam.
   - "opt" (default)
   - "runPrimal"
   - "runAdjoint"
-  - "calcPsi"
+  - "runAdjVector"

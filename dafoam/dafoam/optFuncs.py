@@ -229,6 +229,39 @@ def calcObjFuncSens(xDV, funcs):
 
     return funcsSens, fail
 
+def calcAdjVector(xDV, funcs):
+    """
+    Run the adjoint solver and get the Adjoint vector psiVec.
+    """
+
+    Info("\n")
+    Info("+--------------------------------------------------------------------------+")
+    Info("|                       Evaluating Adjoint Vector                          |")
+    Info("+--------------------------------------------------------------------------+")
+
+    a = time.time()
+
+    # write the design variable values to file
+    DASolver.writeDesignVariable("designVariableHist.txt", xDV)
+
+    # write the deform FFDs
+    DASolver.writeDeformedFFDs()
+
+    # Setup an empty dictionary for the evaluated derivative values
+    funcsSens = {}
+
+    # Evaluate the geometric constraint derivatives
+    DVCon.evalFunctionsSens(funcsSens)
+
+    # Solve the adjoint
+    DASolver.calcPsiVec()
+
+    b = time.time()
+
+    # Print the current solution to the screen
+    with np.printoptions(precision=16, threshold=5, suppress=True):
+        Info("Calculation of Adjoint Vector Runtime: %g s" % (b - a))
+
 
 def calcObjFuncSensMP(xDV, funcs):
     """
@@ -435,38 +468,38 @@ def runAdjoint(objFun=calcObjFuncValues, sensFun=calcObjFuncSens, fileName=None)
 
     return funcsSens, fail
 
-def calcPsi(objFun=calcObjFuncValues, sensFun=calcObjFuncSens, fileName=None):
+def runAdjVector(objFun=calcObjFuncValues, sensFun=calcAdjVector, fileName=None):
     """
     Just run the primal and adjoint
     """
 
-    print("Calculating Psi")
+    print("Calculating Adjoint Vector")
 
     DASolver.runColoring()
     xDV = DVGeo.getValues()
     funcs = {}
     funcs, fail = objFun(xDV)
     funcsSens = {}
-    funcsSens, fail = sensFun(xDV, funcs)
+    sensFun(xDV, funcs)
 
     # Optionally, we can write the sensitivity to a file if fileName is provided
-    if fileName is not None:
-        if gcomm.rank == 0:
-            fOut = open(fileName, "w")
-            for funcName in evalFuncs:
-                for shapeVar in xDV:
-                    fOut.write(funcName + " " + shapeVar + "\n")
-                    try:
-                        nDVs = len(funcsSens[funcName][shapeVar])
-                    except Exception:
-                        nDVs = 1
-                    for n in range(nDVs):
-                        line = str(funcsSens[funcName][shapeVar][n]) + "\n"
-                        fOut.write(line)
-                        fOut.flush()
-            fOut.close()
+    # if fileName is not None:
+    #     if gcomm.rank == 0:
+    #         fOut = open(fileName, "w")
+    #         for funcName in evalFuncs:
+    #             for shapeVar in xDV:
+    #                 fOut.write(funcName + " " + shapeVar + "\n")
+    #                 try:
+    #                     nDVs = len(funcsSens[funcName][shapeVar])
+    #                 except Exception:
+    #                     nDVs = 1
+    #                 for n in range(nDVs):
+    #                     line = str(funcsSens[funcName][shapeVar][n]) + "\n"
+    #                     fOut.write(line)
+    #                     fOut.flush()
+    #         fOut.close()
 
-    return funcsSens, fail
+    # return funcsSens, fail
 
 def runForwardAD(dvName="None", seedIndex=-1):
     """
