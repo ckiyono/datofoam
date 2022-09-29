@@ -1,0 +1,20 @@
+1) Run with: rm -f volumeConstraint.txt && rm -f objectiveFunction.txt && foamListTimes -rm && simpleFoamTopOpt
+
+2) At the controlDict, use:
+- latestTime and a high value for endTime
+- stopAt nextWrite
+
+3) Files created:
+- nOptTemp (temporary for material model usage...it is deleted after the solver stops)
+- objectiveFunction (objective function values for all iterations)
+- orthoCols (orthogonal columns for state and design variables + groups of possible non-zeros for Jacobian matrices)
+- volumeConstraint (volume constraint factors to be used in the next optimization iteration)
+
+4) If cyclicAMI is used:
+- Always use z axis
+- It is recommended to make half domain and use mirrorMesh
+
+5) Never use parallel in primal solve when performing FD assessment
+
+6) If using adaptive mesh refinement, it is a good idea to use zeroGradient at walls in rhoDes. This way, the algorithm
+will not refine all walls.

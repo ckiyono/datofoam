@@ -77,6 +77,13 @@ If any modification is made to the DATOFoam code, just build the image again.
  ./preProcessing.sh
  ```
 
+ - Change runScript_v2.py file by adding the following code at task options
+ ```console
+ elif args.task == "runAdjVector":
+
+    optFuncs.runAdjVector()
+ ```
+
  - Then, use the following command to run the optimization with 4 CPU cores:
  ```console
  mpirun -np 4 python runScript_v2.py 2>&1 | tee logOpt.txt
