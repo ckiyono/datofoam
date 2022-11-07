@@ -1,0 +1,10 @@
+EXE_INC = \
+    -I$(PETSC_DIR)/include \
+    -I$(PETSC_DIR)/$(PETSC_ARCH)/include \
+    -I$(MPI_ARCH_PATH)/include \
+    -I$(MPI_ARCH_PATH)/include64
+
+EXE_LIBS = \
+    -L$(PETSC_DIR)/$(PETSC_ARCH)/lib -lpetsc \
+    -L$(MPI_ARCH_PATH)/lib \
+    -O3
