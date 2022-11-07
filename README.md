@@ -86,7 +86,7 @@ If any modification is made to the DATOFoam code, just build the image again.
 
  - Then, use the following command to run the optimization with 4 CPU cores:
  ```console
- mpirun -np 4 python runScript_v2.py 2>&1 | tee logOpt.txt
+ mpirun -np 4 python runScript_v2.py --task="runPrimal" 2>&1 | tee logOpt.txt
  ```
 
  The option '--task=' can be used after 'runScript_v2.py' to choose the task:
